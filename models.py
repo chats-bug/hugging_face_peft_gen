@@ -40,7 +40,7 @@ class TextGenerationParameters(BaseModel):
     top_p: Optional[float] = Field(default=None, ge=0.0, le=1.0)
     temperature: Optional[float] = Field(default=1.0, ge=0.0, le=100.0)
     repetition_penalty: Optional[float] = Field(default=None, ge=0.0, le=100.0)
-    max_new_tokens: Optional[int] = Field(default=None, ge=0, le=250)
+    max_new_tokens: Optional[int] = Field(default=None, ge=0, le=4000)
     max_time: Optional[float] = Field(default=None, ge=0.0, le=120.0)
     return_full_text: Optional[bool] = Field(default=True)
     num_return_sequences: Optional[int] = Field(default=1, ge=1)
@@ -48,6 +48,18 @@ class TextGenerationParameters(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+"""
+Generate a json payload for the class TextGenerationParameters
+{
+	"parameters": {
+		"top_p": 0.9,
+		"temperature": 0,
+		"max_new_tokens": 500,
+	}
+}
+"""
 
 
 class PayloadOptions(BaseModel):
@@ -64,6 +76,7 @@ class InputPayload(BaseModel):
         default_factory=TextGenerationParameters
     )
     options: PayloadOptions = Field(default_factory=PayloadOptions)
+    superagi_task_gen: bool = False
 
     class Config:
         orm_mode = True
