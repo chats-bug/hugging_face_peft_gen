@@ -16,4 +16,7 @@ def read_root() -> List[Output]:
 @app.post("/generate")
 def generate_text(payload: InputPayload) -> List[Output]:
     output = inference(payload)
-    return [Output(generated_text=output)]
+    return_value: List[Output] = []
+    for o in output:
+        return_value.append(Output(generated_text=o))
+    return return_value
